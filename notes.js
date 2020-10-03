@@ -1,7 +1,7 @@
 let chalk=require("chalk")
 var fs= require("fs");
 
-
+// function to add a new note
 const addNotes = (title,body) =>{
     // load previous notes
     var notes=loadnotes()
@@ -18,35 +18,16 @@ const addNotes = (title,body) =>{
         })
         // saving notes
         saveNotes(notes)
-        console.log("New Note Added")
+        console.log(chalk.green.inverse('New note added!'))
     } 
     else{
-        console.log("Note Title Taken!!")
+        console.log(chalk.red.inverse('Note title taken!'))
     }
    
 }
 
-// loading data from the file
-let loadnotes = () =>{ 
-    try{
-        // geting data from the file!!
-        var dataBuffer= fs.readFileSync("notes.json") // returns binary data
-        var data=dataBuffer.toString() //binary to string
-        return JSON.parse(data) //string to JSON
-    }
-    catch(e){
-        // file error handling
-        return []
-    }
-    
-}
 
-// saving function
-let saveNotes = (notes) => {
-    let stringData = JSON.stringify(notes) // JSON to string
-    fs.writeFileSync("notes.json",stringData) // String to Writing in File
-}
-
+// function to remove a note by it's title
 const removeNotes = (title) => {
     // load previous notes
     var notes=loadnotes()
@@ -68,20 +49,48 @@ const removeNotes = (title) => {
 
 }
 
+// function to find all notes!!
 const listNotes = () =>{
     var notes=loadnotes()
-    console.log("Your Notes")
-    notes.forEach((note) =>  {
+    console.log(chalk.inverse('Your notes'))
+        notes.forEach((note) =>  {
         console.log("Title: " + note.title +" ,Body: " + note.body)
     })
 }
 
+// function to find a single note by it's title!
 const readNotes = (title) => {
     //loading notes
     var notes=loadnotes()
-    var Note=notes.find((note) => note.title===title)// finding the note
+    var note=notes.find((note) => note.title===title)// finding the note
     
-    console.log("Title: " + Note.title +" ,Body: " + Note.body)
+    if (note) {
+        console.log(chalk.inverse(note.title))
+        console.log(note.body)
+    } else {
+        console.log(chalk.red.inverse('Note not found!'))
+    }
+}
+
+// loading data from the file
+let loadnotes = () =>{ 
+    try{
+        // geting data from the file!!
+        var dataBuffer= fs.readFileSync("notes.json") // returns binary data
+        var data=dataBuffer.toString() //binary to string
+        return JSON.parse(data) //string to JSON
+    }
+    catch(e){
+        // file error handling
+        return []
+    }
+    
+}
+
+// saving function
+let saveNotes = (notes) => {
+    let stringData = JSON.stringify(notes) // JSON to string
+    fs.writeFileSync("notes.json",stringData) // String to Writing in File
 }
 
 
