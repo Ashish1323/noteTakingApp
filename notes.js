@@ -11,6 +11,8 @@ const addNotes = (title,body) =>{
         return note.title === title
     })
 
+    
+
     if(duplicateNotes.length === 0){
         notes.push({
             title:title,
@@ -54,7 +56,7 @@ const listNotes = () =>{
     var notes=loadnotes()
     console.log(chalk.inverse('Your notes'))
         notes.forEach((note) =>  {
-        console.log("Title: " + note.title +" ,Body: " + note.body)
+            console.log(note.title)
     })
 }
 
